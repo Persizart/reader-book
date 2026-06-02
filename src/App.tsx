@@ -8,10 +8,15 @@ import BookDetailView from './components/BookDetailView';
 import ChapterReadView from './components/ChapterReadView';
 import BookModal from './components/BookModal';
 import ChapterModal from './components/ChapterModal';
+import { 
+  syncGetBooks, 
+  syncSaveBooks 
+} from './utils/cloudflareSync';
 
 const STORAGE_KEY = 'readerbook_books';
 
 export default function App() {
+  const [isCloudflareSyncActive, setIsCloudflareSyncActive] = useState<boolean>(false);
   const [currentView, setCurrentView] = useState<string>('home');
   const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
   const [selectedChapterIdx, setSelectedChapterIdx] = useState<number | null>(null);
@@ -48,25 +53,50 @@ export default function App() {
   const [targetBookId, setTargetBookId] = useState<string | null>(null);
 
   useEffect(() => {
-    const rawData = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('minhaestante_books');
-    if (rawData) {
-      try {
-        const parsed = JSON.parse(rawData);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setBooks(parsed);
+    const loadBooks = async () => {
+      const cloudflareBooks = await syncGetBooks();
+      let activeSync = false;
+      if (cloudflareBooks !== null) {
+        activeSync = true;
+        setIsCloudflareSyncActive(true);
+        if (cloudflareBooks.length > 0) {
+          setBooks(cloudflareBooks);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(cloudflareBooks));
           return;
         }
-      } catch (err) {
-        console.error(err);
       }
-    }
-    setBooks(dummyBooks);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(dummyBooks));
-  }, []);
+
+      const rawData = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('minhaestante_books');
+      if (rawData) {
+        try {
+          const parsed = JSON.parse(rawData);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setBooks(parsed);
+            if (activeSync) {
+              await syncSaveBooks(parsed);
+            }
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      setBooks(dummyBooks);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(dummyBooks));
+      if (activeSync) {
+        await syncSaveBooks(dummyBooks);
+      }
+    };
+
+    loadBooks();
+  }, [isCloudflareSyncActive]);
 
   const saveBooks = (updatedBooks: Book[]) => {
     setBooks(updatedBooks);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedBooks));
+    if (isCloudflareSyncActive) {
+      syncSaveBooks(updatedBooks);
+    }
   };
 
   const handleNavigate = (view: string) => {
@@ -97,16 +127,18 @@ export default function App() {
   const handleSaveBook = (bookData: { title: string; genre: string; description: string; cover: string | null }) => {
     const timeNow = new Date().toISOString();
     if (editingBook) {
+      const updatedBook = {
+        ...editingBook,
+        title: bookData.title,
+        genre: bookData.genre,
+        description: bookData.description,
+        cover: bookData.cover,
+        updatedAt: timeNow,
+      };
+      
       const updated = books.map((b) => {
         if (b.id === editingBook.id) {
-          return {
-            ...b,
-            title: bookData.title,
-            genre: bookData.genre,
-            description: bookData.description,
-            cover: bookData.cover,
-            updatedAt: timeNow,
-          };
+          return updatedBook;
         }
         return b;
       });
@@ -155,6 +187,7 @@ export default function App() {
   const handleSaveChapter = (chapterData: { title: string; content: string; wordCount: number }) => {
     if (!targetBookId) return;
 
+    let targetBook: Book | undefined;
     const updated = books.map((b) => {
       if (b.id === targetBookId) {
         const chaps = [...(b.chapters || [])];
@@ -170,11 +203,13 @@ export default function App() {
           chaps.push(newChapter);
         }
 
-        return {
+        const updatedBook = {
           ...b,
           chapters: chaps,
           updatedAt: new Date().toISOString(),
         };
+        targetBook = updatedBook;
+        return updatedBook;
       }
       return b;
     });
@@ -194,11 +229,12 @@ export default function App() {
         if (b.id === bookId) {
           const chaps = [...(b.chapters || [])];
           chaps.splice(idx, 1);
-          return {
+          const updatedBook = {
             ...b,
             chapters: chaps,
             updatedAt: new Date().toISOString(),
           };
+          return updatedBook;
         }
         return b;
       });
@@ -290,6 +326,7 @@ export default function App() {
             onAddChapter={handleOpenNewChapterModal}
             onExport={handleExportBackup}
             onImport={handleImportBackup}
+            isCloudflareSyncActive={isCloudflareSyncActive}
           />
         )}
 

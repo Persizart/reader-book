@@ -11,6 +11,7 @@ interface AdminViewProps {
   onAddChapter: (bookId: string) => void;
   onExport: () => void;
   onImport: () => void;
+  isCloudflareSyncActive: boolean;
 }
 
 export default function AdminView({
@@ -22,6 +23,7 @@ export default function AdminView({
   onAddChapter,
   onExport,
   onImport,
+  isCloudflareSyncActive,
 }: AdminViewProps) {
   const bookCount = books.length;
   const chapterCount = books.reduce((sum, b) => sum + (b.chapters?.length || 0), 0);
@@ -34,9 +36,42 @@ export default function AdminView({
       <h2 className="font-serif text-3xl font-semibold text-[#E2E8F0] tracking-tight mb-2">
         Painel de Escrita e Editoração
       </h2>
-      <p className="text-sm text-[#A0AEC0] max-w-xl leading-relaxed mb-8">
-        Gere novos livros do zero, organize e formate capítulos ricos sem limites. Suas alterações são salvas automaticamente de forma local e privada.
+      <p className="text-sm text-[#A0AEC0] max-w-xl leading-relaxed mb-6">
+        Gere novos livros do zero, organize e formate capítulos ricos sem limites. Seus livros são salvos de forma protegida para leitura imediata.
       </p>
+
+      {/* Indicador de Sincronização Cloudflare */}
+      <div className={`mb-8 p-4 rounded-xl border flex flex-col md:flex-row md:items-center md:justify-between gap-5 text-sm ${
+        isCloudflareSyncActive 
+          ? 'bg-[#122b10]/25 border-green-500/30 text-green-200' 
+          : 'bg-[#5c2514]/15 border-[#e2b055]/30 text-stone-300'
+      }`}>
+        <div className="flex items-start gap-3">
+          <div className={`h-2.5 w-2.5 rounded-full shrink-0 mt-1.5 ${isCloudflareSyncActive ? 'bg-green-500 animate-pulse' : 'bg-amber-400'}`} />
+          <div>
+            <p className="font-semibold text-white">
+              {isCloudflareSyncActive ? '✨ Sincronização Cloudflare Ativa (KV Database)' : '⚠️ Modo Local (Dispositivo Único)'}
+            </p>
+            <p className="text-xs text-[#A0AEC0] mt-1 leading-normal max-w-2xl">
+              {isCloudflareSyncActive 
+                ? 'Seus livros foram carregados da nuvem Cloudflare KV. Suas obras estão 100% salvas na nuvem e aparecem imediatamente em qualquer outro celular ou computador!' 
+                : 'Seus dados estão sendo salvos apenas neste navegador (Modo Local). Para salvar e sincronizar os livros em múltiplos celulares e no seu link definitivo do Cloudflare, siga o procedimento simples de vinculação de banco de dados do Cloudflare Pages.'
+              }
+            </p>
+          </div>
+        </div>
+        {!isCloudflareSyncActive && (
+          <div className="text-[11px] bg-[#1A1D23] border border-[#2D3139] p-3 rounded-lg text-stone-300 leading-normal max-w-md sm:self-center font-sans">
+            <strong className="text-[#CBB26A] block mb-1">Como ativar no Cloudflare:</strong>
+            <ol className="list-decimal pl-4 space-y-1 text-xs text-[#A0AEC0]">
+              <li>No painel do Cloudflare, acesse <strong className="text-white">Pages</strong> &gt; <em className="text-white">seu-projeto</em> &gt; <strong className="text-white">Settings</strong> &gt; <strong className="text-white">Functions</strong>.</li>
+              <li>Procure por <strong className="text-white">KV namespace bindings</strong> e clique em <strong className="text-white">Add Binding</strong>.</li>
+              <li>Defina a variável (Variable Name) como <code className="bg-[#0F1115] px-1 py-0.5 rounded text-amber-400 font-mono">READERBOOK_KV</code> e selecione um KV namespace da sua conta.</li>
+              <li>Pronto! Ao salvar novas alterações, seus livros e capítulos sincronizam na nuvem para qualquer tela.</li>
+            </ol>
+          </div>
+        )}
+      </div>
 
       <section className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10" id="admin-stats-bento">
         <div className="bg-[#1A1D23] border border-[#2D3139] p-6 rounded-xl flex items-center justify-between shadow-md">
