@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #E2E8F0;
+  --color-paper: #0A0B0D;
+  --color-parchment: #0F1115;
+  --color-gold-custom: #CBB26A;
+  --color-gold-light: #e2b055;
+  --color-rust: #CBB26A;
+  --color-muted-custom: #A0AEC0;
+  --color-border-custom: #2D3139;
+  --color-card-custom: #1A1D23;
+
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'DM Sans', 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+}
+
+.editor-area {
+  min-height: 350px;
+  max-width: 100%;
+}
+
+.editor-area:focus {
+  outline: none;
+}
+
+.editor-content-render p {
+  margin-bottom: 1.25em;
+  text-indent: 1.5em;
+}
+
+.editor-content-render p:first-of-type {
+  text-indent: 0;
+}
+
+.editor-content-render blockquote {
+  border-left: 3px solid var(--color-gold-custom);
+  padding-left: 1rem;
+  font-style: italic;
+  margin: 1.5rem 0;
+  color: var(--color-muted-custom);
+}
+
+.editor-content-render hr {
+  border: none;
+  border-top: 1px solid var(--color-gold-custom);
+  margin: 2rem auto;
+  width: 50%;
+  opacity: 0.6;
+}
+
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-paper);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-custom);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-custom);
+}
