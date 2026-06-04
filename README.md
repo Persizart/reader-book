@@ -30,3 +30,31 @@ npm install
 
 # Execute o projeto em modo desenvolvimento
 npm run dev
+📁 Estrutura do Projeto
+text
+├── src/           # Código fonte da aplicação
+├── functions/     # Funções serverless/API
+├── public/        # Arquivos estáticos
+├── index.html     # HTML principal
+├── package.json   # Dependências e scripts
+├── tsconfig.json  # Configuração TypeScript
+└── vite.config.ts # Configuração Vite
+🤝 Como Contribuir
+Faça um fork do projeto
+
+Crie uma branch para sua feature (git checkout -b feature/nova-funcionalidade)
+
+Commit suas mudanças (git commit -m 'feat: adiciona nova funcionalidade')
+
+Push para a branch (git push origin feature/nova-funcionalidade)
+
+Abra um Pull Request
+
+Licença
+Este projeto está sob licença privada, todos os direitos reservados.
+
+👤 Autor
+Persizart (☞ﾟヮﾟ)☞
+
+GitHub: @Persizart
+
