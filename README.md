@@ -1,60 +1,111 @@
 # 📚 Reader Book
 
-Reader Book é uma aplicação web moderna para leitura e gerenciamento de livros, construída com React e TypeScript, oferece uma experiência de leitura limpa e intuitiva
+Reader Book é uma aplicação web moderna desenvolvida para leitura e gerenciamento de livros, com foco em experiência limpa, desempenho e organização do conteúdo.
 
-##  Funcionalidades
+O projeto foi construído utilizando React + TypeScript e explora conceitos de desenvolvimento frontend moderno, estruturação de aplicações e integração com funcionalidades serverless.
 
--  Leitura de livros com interface amigável
--  Busca e filtro de conteúdo
--  Design responsivo para todos os dispositivos
--  Tema claro/escuro (se aplicável)
--  Carregamento rápido com Vite
+---
 
-##  Tecnologias Utilizadas
+## Objetivo
 
-- **React 18** - Biblioteca UI
-- **TypeScript** - Tipagem estática
-- **Vite** - Build tool e dev server
-- **Node.js** - Ambiente de execução
+Criar uma plataforma simples e intuitiva para que usuários possam navegar, organizar e consumir conteúdo de leitura com uma interface moderna e responsiva.
 
-##  Como Executar o Projeto
+---
+
+## Funcionalidades
+
+✅ Interface de leitura limpa e intuitiva
+✅ Busca e filtragem de conteúdo
+✅ Navegação responsiva para desktop e mobile
+✅ Tema claro/escuro *(caso implementado)*
+✅ Carregamento rápido utilizando Vite
+✅ Estrutura preparada para integração com API / funções serverless
+
+---
+
+## Tecnologias Utilizadas
+
+* React 18
+* TypeScript
+* Vite
+* Node.js
+* Serverless Functions
+
+---
+
+## Arquitetura Simplificada
+
+```text
+Frontend (React + TypeScript)
+        ↓
+Functions / API
+        ↓
+Processamento e Dados
+```
+
+---
+
+## Desafios Técnicos e Aprendizados
+
+Durante o desenvolvimento do Reader Book, trabalhei com:
+
+* Organização de componentes e estrutura escalável
+* Gerenciamento de estado da aplicação
+* Configuração de ambiente para execução e build
+* Integração entre frontend e funções backend
+* Investigação e resolução de problemas relacionados ao deploy e execução
+
+Esse projeto contribuiu para desenvolver uma abordagem mais estruturada para diagnóstico técnico e resolução de problemas.
+
+---
+
+## Como Executar
 
 ### Pré-requisitos
 
-- Node.js (versão 16 ou superior)
-- npm ou yarn
+* Node.js (16+)
+* npm ou yarn
 
+### Instalar dependências
 
-# Instale as dependências
+```bash
 npm install
+```
 
-# Execute o projeto em modo desenvolvimento
+### Executar em desenvolvimento
+
+```bash
 npm run dev
-📁 Estrutura do Projeto
-text
-├── src/           # Código fonte da aplicação
-├── functions/     # Funções serverless/API
-├── public/        # Arquivos estáticos
-├── index.html     # HTML principal
-├── package.json   # Dependências e scripts
-├── tsconfig.json  # Configuração TypeScript
-└── vite.config.ts # Configuração Vite
-🤝 Como Contribuir
-Faça um fork do projeto
+```
 
-Crie uma branch para sua feature (git checkout -b feature/nova-funcionalidade)
+---
 
-Commit suas mudanças (git commit -m 'feat: adiciona nova funcionalidade')
+## Estrutura do Projeto
 
-Push para a branch (git push origin feature/nova-funcionalidade)
+```text
+├── src/            # Código fonte
+├── functions/      # Funções serverless / API
+├── public/         # Arquivos públicos
+├── index.html
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
+```
 
-Abra um Pull Request
+---
 
-Licença
-Este projeto está sob licença privada, todos os direitos reservados.
+## Próximas Melhorias
 
-👤 Autor
-Persizart (☞ﾟヮﾟ)☞
+* Sistema de autenticação
+* Histórico de leitura
+* Persistência avançada de dados
+* Testes automatizados
+* Monitoramento e logs
+
+---
+
+## Autor
+
+Alexandre Persi
 
 GitHub: @Persizart
-
