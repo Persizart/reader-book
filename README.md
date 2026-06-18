@@ -14,12 +14,12 @@ Criar uma plataforma simples e intuitiva para que usuários possam navegar, orga
 
 ## Funcionalidades
 
-✅ Interface de leitura limpa e intuitiva
-✅ Busca e filtragem de conteúdo
-✅ Navegação responsiva para desktop e mobile
-✅ Tema claro/escuro *(caso implementado)*
-✅ Carregamento rápido utilizando Vite
-✅ Estrutura preparada para integração com API / funções serverless
+Interface de leitura limpa e intuitiva
+Busca e filtragem de conteúdo
+Navegação responsiva para desktop e mobile
+Tema claro/escuro *(caso implementado)*
+Carregamento rápido utilizando Vite
+Estrutura preparada para integração com API / funções serverless
 
 ---
 
@@ -106,6 +106,6 @@ npm run dev
 
 ## Autor
 
-Alexandre Persi
+Alexandre Persi (☞ﾟヮﾟ)☞
 
 GitHub: @Persizart
